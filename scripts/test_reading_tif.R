@@ -1,7 +1,6 @@
 library(raster)
 library(tiff)
 
-
 files <- list.files("data/testing", pattern = ".tif", full.names = TRUE)
 
 target_file <- files[1]

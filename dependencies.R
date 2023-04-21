@@ -1,0 +1,12 @@
+library(sf)
+library(sp)
+library(glue)
+library(tiff)
+library(dplyr)
+library(purrr)
+library(rgdal)
+library(raster)
+library(janitor)
+library(stringr)
+library(stringi)
+
