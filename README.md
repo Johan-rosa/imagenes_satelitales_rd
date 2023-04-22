@@ -92,4 +92,4 @@ El data set utilizado es el del [Sentinel-2 MSI: Multispectral Instrument](https
 ![](data/images/santo_domingo_oeste.png)
 
 #### Barahona
-![](data/images/rarahona.png)
+![](data/images/barahona.png)
