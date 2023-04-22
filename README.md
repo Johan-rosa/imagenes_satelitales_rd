@@ -22,7 +22,7 @@ En este repositorio solo hay algunas imágenes de prueba. se encuentran en `data
 
 > excluye archvios secundario como el `lock.file` con las dependencias y el archivo de proyecto de Rstudio
 
-````
+```
 ├── data
 │   ├── excel
 │   │   └── municipios_metadata.xlsx
@@ -51,6 +51,7 @@ En este repositorio solo hay algunas imágenes de prueba. se encuentran en `data
     │   └── export_sentinel_images.js
     └── read_and_plot_tif.R
 ```
+
 ## Cómo reproducir
 
 Este es un repositorio con control de dependencias con el paquete `{renv}`, a continuación los pasos para obtener todo.
