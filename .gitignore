@@ -3,5 +3,4 @@
 .RData
 .Ruserdata
 .Renviron
-data/testing
-data/images
+data/images/satellite
