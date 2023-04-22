@@ -84,9 +84,11 @@ centroids <- centroids_and_bbox$municipio_centroid %>%
 bbox <- centroids_and_bbox$bbox %>%
   bind_rows()
 
-municipios_df <- municipios_sf %>%
+municipios_sf <- municipios_sf %>%
   bind_cols(centroids) %>%
-  bind_cols(bbox) %>%
+  bind_cols(bbox)
+
+municipios_df <- municipios_sf %>%
   st_drop_geometry() %>%
   as_tibble()
 
