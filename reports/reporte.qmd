@@ -15,9 +15,9 @@ Para los fines de esta investigación se utilizó la actualización pública má
 
 ### Recursos
 
-- [Shapefiles de la cartografía nacional]()
-- [Script para procesar los mapas y extraer la información geográfica]()
-- [Excel con los detalles a nivel de municipio]()
+- [Shapefiles de la cartografía nacional](https://github.com/Johan-rosa/satellite_and_poverty/tree/main/data/shapefiles)
+- [Script para procesar los mapas y extraer la información geográfica](https://github.com/Johan-rosa/satellite_and_poverty/blob/main/municipios_metadata.R)
+- [Excel con los detalles a nivel de municipio](https://github.com/Johan-rosa/satellite_and_poverty/tree/main/data/excel)
 
 
 ## Fuente de las imágenes
