@@ -1,0 +1,106 @@
+---
+title: "Descarga de imágenes satelitales de alta resolución"
+format: docx
+---
+
+Hay varias fuentes abiertas de imágenes satelitales de alta resolución, destacándose los proyectos ejecutados por la NASA y la agencia Espacial Europea, entre ellos los proyectos Landsat, MODIS y Sentinel, que componen una diversa colección de imágenes a escala planetaria que ha servido como piedra angular de muchas iniciativas de investigación científica.
+
+Para esta investigación se utilizaron las imágenes recopiladas por la constelación de satélites Sentinel, operados en el marco  del programa Copernicus de la Agencia Espacial Europea desde el 2014. A continuación se describen los detalles más importantes sobre las imágenes obetenidas de esta fuente, y los pasos para la actualizar la data en el futuro.
+
+## Cartografía nacional
+
+A la hora de descargar imágenes satelitales georeferenciadas es imprescindible contar con recursos cartográficos precisos, con la finalidad de delimitar y dimensionar la captura de información. Para el caso dominicano, la Oficina Nacional de Estadística genera shapefiles para las distintas desagregaciones geográficas de la división político-administrativa nacional útiles para este proceso.
+
+Para los fines de esta investigación se utilizó la actualización pública más reciente de la cartografía nacional, la actualización 2010, creada en el marco noveno Censo Nacional de Población y vivienda. Se utilizaron los _shapefiles_ de los 155 municipios del país, para obtener los centroides y los cuadros de delimitación de cada área. Esto significa que canda imagen descargada cubre el área que oficialmente contempla la ONE para cara unidad territorial.
+
+### Recursos
+
+- [Shapefiles de la cartografía nacional]()
+- [Script para procesar los mapas y extraer la información geográfica]()
+- [Excel con los detalles a nivel de municipio]()
+
+
+## Fuente de las imágenes
+
+### Plataforma de procesamiento de descargas
+
+Para la descarga de las imágenes se utilizó el servicio [Google Search Engine](https://earthengine.google.com/) de Google, un servicio con un amplio catálogo de imágenes y datos geoespaciales a nivel planetario. Está diseñado para que investigadores y desarrolladores puedan detectar cambios y tendencias en la superficie terrestre.
+
+### Fuente de las imágenes satelitales
+
+La imágenes provienen del *Copernicus Program*, una iniciativa de la Comisión Europea y la Agencia Espacial Europea. Específicamente de los satelites Sentinel, una constelación de satelites desarrollados en el marco del programa copernicus que generan imágenes planetarias de alta resolución con propósitos múltiples.
+
+El data set utilizado es el del [Sentinel-2 MSI: Multispectral Instrument](https://developers.google.com/earth-engine/datasets/catalog/sentinel-2), un set de imagenes multiespectrales de alta resolución, con una frecuencia de circulación planetaria de 5 días que permite monitorear la evolución de áreas terrestres y marinas, fenómenos naturales y sus consecuencias.
+
+> [Enlace hacia los detalles técnicos del dataset](https://developers.google.com/earth-engine/datasets/catalog/COPERNICUS_S2_SR_HARMONIZED)
+
+### Ejemplo del código para descargar las imagenes del Distrito Nacional
+
+```
+function maskS2clouds(image) {
+  var qa = image.select('QA60');
+
+  // Bits 10 and 11 are clouds and cirrus, respectively.
+  var cloudBitMask = 1 << 10;
+  var cirrusBitMask = 1 << 11;
+
+  // Both flags should be set to zero, indicating clear conditions.
+  var mask = qa.bitwiseAnd(cloudBitMask).eq(0)
+      .and(qa.bitwiseAnd(cirrusBitMask).eq(0));
+
+  return image.updateMask(mask).divide(10000);
+}
+
+var dataset = ee.ImageCollection('COPERNICUS/S2_SR_HARMONIZED')
+                  .filterDate('2016-01-01', '2021-01-30')
+                  // Pre-filter to get less cloudy granules.
+                  .filter(ee.Filter.lt('CLOUDY_PIXEL_PERCENTAGE', 20))
+                  .map(maskS2clouds);
+
+var visualization = {
+  min: 0.0,
+  max: 0.3,
+  bands: ['B4', 'B3', 'B2'],
+};
+
+
+Map.addLayer(dataset.mean(), visualization, 'RGB');
+
+// Santo Domingo De Guzman =====================================
+Map.setCenter(-69.9417508242639, 18.4849087414287, 12);
+
+// Coordinates for the bounds of a rectangle.
+var xMin = -69.9992758387881;
+var xMax = -69.8746300328502;
+var yMin = 18.4227387823931;
+var yMax = 18.5475933388703;
+
+// A region of interest.
+var region = ee.Geometry.BBox(xMin, yMin, xMax, yMax);
+
+// Set the export 'scale' and 'crs' parameters.
+Export.image.toDrive({
+  image: dataset.mean(),
+  description: '100101_santo_domingo_de_guzman',
+  folder: 'rd_copernicus_s2',
+  region: region,
+  scale: 30,
+  crs: 'EPSG:5070'
+});
+```
+
+## Muestra de algunas imagenes
+
+> Esta es una versión de baja resolución de las imagenes en formato PNG, las originas están en formato tiff en la carpeta `data/testing/`
+
+#### Distrito Nacional
+![](../data/images/distrito_nacional.png)
+
+#### Los Alcarrizos
+![](../data/images/los_alcarrizos.png)
+
+#### Santo Domingo Oeste
+![](../data/images/santo_domingo_oeste.png)
+
+#### Barahona
+![](../data/images/barahona.png)
