@@ -2,6 +2,11 @@
 
 El proyecto contiene recursos para reproducir la descarga y análisis de imágenes satelitales de alta resolución de República Dominicana, a distintos niveles de la desagregación político-administrativa.
 
+La utilidad de estas imágenes para el monitoreo contínuo del uso de suelo y recursos naturales es amplia, ya que se pueden procesar con modelos de machine learning para detectar actividades no atorizadas en el territorio nacional. 
+
+### Identificación de explotación de recursos naturales con machine learning
+![](data/images/examples/clasificacion_actividadad_terrestre.png)
+
 ## Estructura del proyecto
 
 **Data:** aquí se almacena la data input/output en los potenciales formatos (`.xlsx`, `.rds`, `.tif`, `.shp`, `.csv`). Por lo pesado que son las imagenes satelitales, lamentablemente los archvios `.tif` no se encuentran directamente en este repositorio, se deben descargar de este [folder de google drive](https://drive.google.com/drive/folders/1DeY5X4ITCouKRRUax6pODYYhhf9zcQ5V?usp=sharing).
